@@ -95,17 +95,16 @@ done
 #clone node
 clone_node(){
   clear
-  #link web 
-   read -p " Nhập domain web (không cần https://):" api_host
-    [ -z "${api_host}" ] && api_host=0
-    echo "--------------------------------"
-  echo "Bạn đã chọn https://${api_host}"
-  echo "--------------------------------"
-  #key web
-  read -p " Nhập key web :" api_key
-    [ -z "${api_key}" ] && api_key=0
+  # Gán giá trị mặc định cho api_host và api_key
+  api_host="minhanhvpn.com"
+  api_key="minhanhvpn050503"
+
   echo "--------------------------------"
   echo "Bạn đã chọn https://${api_host}"
+  echo "--------------------------------"
+
+  echo "--------------------------------"
+  echo "Bạn đã chọn key web: ${api_key}"
   echo "--------------------------------"
 
 #node type
