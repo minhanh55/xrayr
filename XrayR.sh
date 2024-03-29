@@ -108,7 +108,7 @@ update() {
 #        fi
 #        return 0
 #    fi
-    bash <(curl -Ls https://xn--ss-8ja.vn/xrayrlimit/install.sh) $version
+    bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/xrayr/main/installXrayr.sh) $version
     if [[ $? == 0 ]]; then
         echo -e "${green}Bản cập nhật hoàn tất và XrayR đã được tự động khởi động lại, sử dụng “XrayR log” để xem nhật ký chạy${plain}"
         exit
@@ -271,7 +271,7 @@ install_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/XrayR -N --no-check-certificate https://xn--ss-8ja.vn/xrayrlimit/XrayR.sh
+    wget -O /usr/bin/XrayR -N --no-check-certificate https://raw.githubusercontent.com/minhanh55/xrayr/main/XrayR.sh
     if [[ $? != 0 ]]; then
         echo ""
         echo -e "${red}Tải xuống tập lệnh không thành công, vui lòng kiểm tra xem thiết bị có thể kết nối với Github không${plain}"
@@ -387,7 +387,7 @@ show_usage() {
 
 show_menu() {
     echo -e "
-  ${green}XrayR limit thiết bị Zicboard${plain}
+  ${green}XrayR limit thiết bị MAVPN${plain}
   ${green}Menu tiện ích${plain}
   ${green}0.${plain} Thay đổi cài đặt
 ————————————————
