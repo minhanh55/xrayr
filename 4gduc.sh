@@ -95,8 +95,8 @@ done
 clone_node(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="minhanhvpn.com"
-  api_key="minhanhvpn050503"
+  api_host="4gduc.fun"
+  api_key="4gsinhviensieungon"
 
   echo "--------------------------------"
   echo "Bạn đã chọn https://${api_host}"
