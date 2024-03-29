@@ -5,6 +5,8 @@ echo "   3. thêm node"
 read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc định Cài đặt):  " num
 [ -z "${num}" ] && num="1"
 
+
+
 install_1(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
@@ -24,6 +26,7 @@ install_1(){
 #  echo "-------------------------------"
 #   echo "ip vps : ${CertDomain}"
 #  echo "-------------------------------"
+
 
 
   pre_install
@@ -93,8 +96,8 @@ done
 clone_node(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="demo.minhanhvpn.com"
-  api_key="minhanhvpnminhanhvpnminhanhvpn"
+  api_host="minhanhvpn.com"
+  api_key="minhanhvpn050503"
 
   echo "--------------------------------"
   echo "Bạn đã chọn https://${api_host}"
@@ -155,6 +158,11 @@ clone_node(){
 }
 
 
+
+
+
+
+
 config(){
 cd /etc/XrayR
 cat >>config.yml<<EOF
@@ -208,7 +216,7 @@ EOF
  }
 
 case "${num}" in
-1) bash <(curl -Ls https://xn--ss-8ja.vn/xrayrlimit/install.sh)
+1) bash <(curl -Ls https://raw.githubusercontent.com/qtai2901/XrayR-release/main/install.sh)
 openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/4ghatde.crt -keyout /etc/XrayR/4ghatde.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
 cd /etc/XrayR
   cat >config.yml <<EOF
