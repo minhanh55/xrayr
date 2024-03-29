@@ -159,7 +159,7 @@ config(){
 cd /etc/XrayR
 cat >>config.yml<<EOF
   -
-    PanelType: "V2board" # Panel type: SSpanel, V2board, PMpanel, , Proxypanel
+    PanelType: "NewV2board" # Panel type: SSpanel, V2board, PMpanel, , Proxypanel
     ApiConfig:
       ApiHost: "https://$api_host"
       ApiKey: "$api_key"
