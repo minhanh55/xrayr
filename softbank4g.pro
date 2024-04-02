@@ -82,9 +82,9 @@ echo -e "node thứ $((a+1))"
 
 
 
-  
 
-  
+
+
 
  config
   a=$((a+1))
@@ -96,8 +96,8 @@ done
 clone_node(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="softbank4g.pro"
-  api_key="apikeyserversoftbank4g"
+  api_host="minhanhvpn.com"
+  api_key="minhanhvpn050503"
 
   echo "--------------------------------"
   echo "Bạn đã chọn https://${api_host}"
@@ -108,7 +108,7 @@ clone_node(){
   echo "--------------------------------"
 
 #node type
-  
+
  echo -e "[1] Vmess"
  echo -e "[2] Vless"
   echo -e "[3] trojan"
@@ -140,10 +140,10 @@ clone_node(){
   echo "-------------------------------"
   echo -e "Node_ID: ${node_id}"
   echo "-------------------------------"
-  
-  
 
-  
+
+
+
 #   #IP vps
 #  read -p "Nhập domain :" CertDomain
 #   [ -z "${CertDomain}" ] && CertDomain="0"
@@ -153,8 +153,8 @@ clone_node(){
 
 
  config
-  
- 
+
+
 }
 
 
@@ -167,7 +167,7 @@ config(){
 cd /etc/XrayR
 cat >>config.yml<<EOF
   -
-    PanelType: "NewV2board" # Panel type: SSpanel, V2board, PMpanel, , Proxypanel
+    PanelType: "V2board" # Panel type: SSpanel, V2board, PMpanel, , Proxypanel
     ApiConfig:
       ApiHost: "https://$api_host"
       ApiKey: "$api_key"
@@ -216,7 +216,7 @@ EOF
  }
 
 case "${num}" in
-1) bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/xrayr/main/installXrayr.sh)
+1) bash <(curl -Ls https://raw.githubusercontent.com/qtai2901/XrayR-release/main/install.sh)
 openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/4ghatde.crt -keyout /etc/XrayR/4ghatde.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
 cd /etc/XrayR
   cat >config.yml <<EOF
