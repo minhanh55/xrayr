@@ -10,7 +10,7 @@ read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc địn
 install_1(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="4gduc.fun"
+  api_host="4gduc.site"
   api_key="4gsinhviensieungon"
 
   echo "--------------------------------"
