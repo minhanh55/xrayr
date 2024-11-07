@@ -167,10 +167,10 @@ cat >>config.yml<<EOF
       RuleListPath: # /etc/XrayR/rulelist Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
-      DisableSniffing: true
+      DisableSniffing: false
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
-      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
+      UpdatePeriodic: 30 # Time to update the nodeinfo, how many sec.
       EnableDNS: false # Use custom DNS config, Please ensure that you set the dns.json well
       DNSType: AsIs # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
       EnableProxyProtocol: false # Only works for WebSocket and TCP
@@ -204,7 +204,7 @@ cat >>config.yml<<EOF
         PrivateKey: YOUR_PRIVATE_KEY # Required, execute './xray x25519' to generate.
         MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
         MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
-        MaxTimeDiff: 0 # Optional, maximum allowed time difference, unit is in milliseconds.
+        MaxTimeDiff: 200 # Optional, maximum allowed time difference, unit is in milliseconds.
         ShortIds: # Required, list of available shortIds for the client, can be used to differentiate between different clients.
           - ""
           - 0123456789abcdef
@@ -238,7 +238,7 @@ InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound con
 OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
 ConnectionConfig:
   Handshake: 4 # Handshake time limit, Second
-  ConnIdle: 30 # Connection idle time limit, Second
+  ConnIdle: 60 # Connection idle time limit, Second
   UplinkOnly: 2 # Time limit when the connection downstream is closed, Second
   DownlinkOnly: 4 # Time limit when the connection is closed after the uplink is closed, Second
   BufferSize: 64 # The internal cache size of each connection, kB
