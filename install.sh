@@ -211,8 +211,8 @@ cat >>config.yml<<EOF
       CertConfig:
         CertMode: file # Option about how to get certificate: none, file, http, tls, dns. Choose "none" will forcedly disable the tls config.
         CertDomain: "1.1.1.1" # Domain to cert
-        CertFile: /etc/XrayR/vpndata.crt # Provided if the CertMode is file
-        KeyFile: /etc/XrayR/vpndata.key
+        CertFile: /etc/XrayR/minhanh.crt # Provided if the CertMode is file
+        KeyFile: /etc/XrayR/minhanh.key
         Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
         Email: test@me.com
         DNSEnv: # DNS ENV option used by DNS provider
@@ -224,8 +224,8 @@ EOF
  }
 
 case "${num}" in
-1) bash <(curl -Ls https://raw.githubusercontent.com/qtai2901/skykt_flash/main/install.sh)
-openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/vpndata.crt -keyout /etc/XrayR/vpndata.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
+1) bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/VPN/main/install.sh)
+openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/minhanh.crt -keyout /etc/XrayR/minhanh.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
 cd /etc/XrayR
   cat >config.yml <<EOF
 Log:
