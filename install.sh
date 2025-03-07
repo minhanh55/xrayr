@@ -162,7 +162,7 @@ cat >>config.yml<<EOF
       Timeout: 30 # Timeout for the api request
       EnableVless: $EnableVless  # Enable Vless for V2ray Type
       VlessFlow: "none" # Only support vless
-      SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
+      SpeedLimit: 70 # Mbps, Local settings will replace remote settings, 0 means disable
       DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
       RuleListPath: # /etc/XrayR/rulelist Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
@@ -170,7 +170,7 @@ cat >>config.yml<<EOF
       DisableSniffing: false
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
-      UpdatePeriodic: 30 # Time to update the nodeinfo, how many sec.
+      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
       EnableDNS: false # Use custom DNS config, Please ensure that you set the dns.json well
       DNSType: AsIs # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
       EnableProxyProtocol: false # Only works for WebSocket and TCP
