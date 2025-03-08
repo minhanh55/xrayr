@@ -162,7 +162,7 @@ cat >>config.yml<<EOF
       Timeout: 30 # Timeout for the api request
       EnableVless: $EnableVless  # Enable Vless for V2ray Type
       VlessFlow: "none" # Only support vless
-      SpeedLimit: 70 # Mbps, Local settings will replace remote settings, 0 means disable
+      SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
       DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
       RuleListPath: # /etc/XrayR/rulelist Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
