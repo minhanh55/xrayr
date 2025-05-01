@@ -20,12 +20,6 @@ install(){
   echo "Bạn đã chọn key web: ${api_key}"
   echo "--------------------------------"
 
-  read -p " Nhập private_key:" private_key
-    [ -z "${private_key}" ] && private_key=0
-    echo "--------------------------------"
-  echo "Bạn đã nhập: ${private_key}"
-  echo "--------------------------------"
-
   pre_install
   
 }
@@ -200,14 +194,14 @@ cat >>config.yml<<EOF
           Dest: 80 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
           ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
       DisableLocalREALITYConfig: false  # disable local reality config
-      EnableREALITY: true # Enable REALITY
+      EnableREALITY: false # Enable REALITY
       REALITYConfigs:
         Show: false # Show REALITY debug
         Dest: minhanhvpn.com:443 # Required, Same as fallback
         ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
         ServerNames: # Required, list of available serverNames for the client, * wildcard is not supported at the moment.
           - minhanhvpn.com
-        PrivateKey: "$private_key" # Required, execute './xray x25519' to generate.
+        PrivateKey: "private_key" # Required, execute './xray x25519' to generate.
         MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
         MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
         MaxTimeDiff: 200 # Optional, maximum allowed time difference, unit is in milliseconds.
