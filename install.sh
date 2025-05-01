@@ -20,6 +20,12 @@ install(){
   echo "Bạn đã chọn key web: ${api_key}"
   echo "--------------------------------"
 
+  read -p " Nhập private_key:" private_key
+    [ -z "${private_key}" ] && private_key=0
+    echo "--------------------------------"
+  echo "Bạn đã nhập: ${private_key}"
+  echo "--------------------------------"
+
   pre_install
   
 }
@@ -171,8 +177,8 @@ cat >>config.yml<<EOF
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
       UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
-      EnableDNS: false # Use custom DNS config, Please ensure that you set the dns.json well
-      DNSType: AsIs # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
+      EnableDNS: true # Use custom DNS config, Please ensure that you set the dns.json well
+      DNSType: UseIPv4 # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
       EnableProxyProtocol: false # Only works for WebSocket and TCP
       AutoSpeedLimitConfig:
         Limit: 0 # Warned speed. Set to 0 to disable AutoSpeedLimit (mbps)
@@ -194,14 +200,14 @@ cat >>config.yml<<EOF
           Dest: 80 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
           ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
       DisableLocalREALITYConfig: false  # disable local reality config
-      EnableREALITY: false # Enable REALITY
+      EnableREALITY: true # Enable REALITY
       REALITYConfigs:
         Show: false # Show REALITY debug
-        Dest: www.smzdm.com:443 # Required, Same as fallback
+        Dest: minhanhvpn.com:443 # Required, Same as fallback
         ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
         ServerNames: # Required, list of available serverNames for the client, * wildcard is not supported at the moment.
-          - www.smzdm.com
-        PrivateKey: YOUR_PRIVATE_KEY # Required, execute './xray x25519' to generate.
+          - minhanhvpn.com
+        PrivateKey: "$private_key" # Required, execute './xray x25519' to generate.
         MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
         MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
         MaxTimeDiff: 200 # Optional, maximum allowed time difference, unit is in milliseconds.
