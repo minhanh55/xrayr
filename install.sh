@@ -164,7 +164,7 @@ cat >>config.yml<<EOF
       VlessFlow: "none" # Only support vless
       SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
       DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
-      RuleListPath: /etc/XrayR/rulelist.dat # Path to local rulelist file
+      RuleListPath: # /etc/XrayR/rulelist.dat # Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
       DisableSniffing: true
