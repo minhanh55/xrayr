@@ -167,7 +167,6 @@ cat >>config.yml<<EOF
       RuleListPath: # /etc/XrayR/rulelist.dat # Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
-      DisableSniffing: true
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
       UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
