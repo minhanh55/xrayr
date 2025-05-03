@@ -230,7 +230,7 @@ openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/minh
 cd /etc/XrayR
   cat >config.yml <<EOF
 Log:
-  Level: warning # Log level: none, error, warning, info, debug 
+  Level: none # Log level: none, error, warning, info, debug 
   AccessPath: # /etc/XrayR/access.Log
   ErrorPath: # /etc/XrayR/error.log
 DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
@@ -253,7 +253,7 @@ xrayr start
  2) cd /etc/XrayR
 cat >config.yml <<EOF
 Log:
-  Level: warning # Log level: none, error, warning, info, debug 
+  Level: none # Log level: none, error, warning, info, debug 
   AccessPath: # /etc/XrayR/access.Log
   ErrorPath: # /etc/XrayR/error.log
 DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
