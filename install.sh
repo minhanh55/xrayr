@@ -167,8 +167,7 @@ cat >>config.yml<<EOF
       RuleListPath: # /etc/XrayR/rulelist.dat # Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
-      Sniffing:
-        Enabled: false
+      DisableSniffing: false
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
       UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
@@ -242,7 +241,7 @@ ConnectionConfig:
   ConnIdle: 300 # Connection idle time limit, Second
   UplinkOnly: 60 # Time limit when the connection downstream is closed, Second
   DownlinkOnly: 60 # Time limit when the connection is closed after the uplink is closed, Second
-  BufferSize: 1024 # The internal cache size of each connection, kB
+  BufferSize: 128 # The internal cache size of each connection, kB
 Nodes:
 EOF
 
@@ -265,7 +264,7 @@ ConnectionConfig:
   ConnIdle: 300 # Connection idle time limit, Second
   UplinkOnly: 60 # Time limit when the connection downstream is closed, Second
   DownlinkOnly: 60 # Time limit when the connection is closed after the uplink is closed, Second
-  BufferSize: 1024 # The internal cache size of each connection, kB
+  BufferSize: 128 # The internal cache size of each connection, kB
 Nodes:
 EOF
 
