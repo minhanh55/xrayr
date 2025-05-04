@@ -202,11 +202,11 @@ cat >>config.yml<<EOF
         ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
         ServerNames: # Required, list of available serverNames for the client, * wildcard is not supported at the moment.
           - povo.jp
-	  - www.linemo.jp
-   	  - id.my.softbank.jp
-      	  - lienquan.garena.vn
-	  - mavpn.appsflyer.com
-   	  - m.youtube.com
+          - www.linemo.jp
+          - id.my.softbank.jp
+          - lienquan.garena.vn
+          - mavpn.appsflyer.com
+          - m.youtube.com
         PrivateKey: "mJa2G2ifqdJj5qlYFbrbA89-TcWlEVfysI1cK-X7eGc" # Required, execute './xray x25519' to generate.
         MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
         MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
