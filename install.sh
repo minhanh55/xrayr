@@ -167,7 +167,6 @@ cat >>config.yml<<EOF
       RuleListPath: # /etc/XrayR/rulelist.dat # Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
-      DisableSniffing: false
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
       UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
@@ -181,10 +180,12 @@ cat >>config.yml<<EOF
         LimitDuration: 0 # How many minutes will the limiting last (unit: minute)
       GlobalDeviceLimitConfig:
         Enable: false # Enable the global device limit of a user
-        RedisAddr: 127.0.0.1:6379 # The redis server address
+        RedisNetwork: tcp # Redis protocol, tcp or unix
+        RedisAddr: 127.0.0.1:6379 # Redis server address, or unix socket path
+        RedisUsername: # Redis username
         RedisPassword: YOUR PASSWORD # Redis password
         RedisDB: 0 # Redis DB
-        Timeout: 20 # Timeout for redis request
+        Timeout: 5 # Timeout for redis request
         Expiry: 60 # Expiry time (second)
       EnableFallback: false # Only support for Trojan and Vless
       FallBackConfigs:  # Support multiple fallbacks
