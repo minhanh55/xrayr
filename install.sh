@@ -206,7 +206,7 @@ cat >>config.yml<<EOF
    	  - id.my.softbank.jp
       	  - lienquan.garena.vn
 	  - mavpn.appsflyer.com
-          - m.youtube.com
+   	  - m.youtube.com
         PrivateKey: "mJa2G2ifqdJj5qlYFbrbA89-TcWlEVfysI1cK-X7eGc" # Required, execute './xray x25519' to generate.
         MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
         MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
