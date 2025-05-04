@@ -211,7 +211,7 @@ cat >>config.yml<<EOF
           - 0123456789abcdef
       CertConfig:
         CertMode: file # Option about how to get certificate: none, file, http, tls, dns. Choose "none" will forcedly disable the tls config.
-        CertDomain: "1.1.1.1" # Domain to cert
+        CertDomain: "minhanh.com" # Domain to cert
         CertFile: /etc/XrayR/minhanh.crt # Provided if the CertMode is file
         KeyFile: /etc/XrayR/minhanh.key
         Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
