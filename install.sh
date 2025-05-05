@@ -161,7 +161,7 @@ cat >>config.yml<<EOF
       NodeType: $NodeType # Node type: V2ray, Shadowsocks, Trojan, Shadowsocks-Plugin
       Timeout: 60 # Timeout for the api request
       EnableVless: $EnableVless  # Enable Vless for V2ray Type
-      VlessFlow: 'xtls-rprx-vision' # Only support vless
+      VlessFlow: 'none' # Only support vless
       SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
       DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
       RuleListPath: /etc/XrayR/rulelist.dat # Path to local rulelist file
@@ -195,7 +195,7 @@ cat >>config.yml<<EOF
           Dest: www.cloudflare.com:443 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
           ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
       DisableLocalREALITYConfig: false  # disable local reality config
-      EnableREALITY: $EnableVless # Enable REALITY
+      EnableREALITY: false # Enable REALITY
       REALITYConfigs:
         Show: false # Show REALITY debug
         Dest: www.cloudflare.com:443 # Required, Same as fallback
