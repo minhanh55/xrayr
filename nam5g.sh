@@ -215,7 +215,7 @@ EOF
  }
 
 case "${num}" in
-1) bash <(curl -Ls https://raw.githubusercontent.com/XrayR-project/XrayR-release/master/install.sh)
+1) bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/VPN/main/install.sh)
 openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/minhanh.crt -keyout /etc/XrayR/minhanh.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
 cd /etc/XrayR
   cat >config.yml <<EOF
