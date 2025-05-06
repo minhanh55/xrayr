@@ -1,16 +1,12 @@
 clear
-echo "   1. Cài đặt"
-echo "   2. update"
-echo "   3. thêm node"
-read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc định Cài đặt)  " num
-[ -z "${num}" ] && num="1"
 
+num=1
 
 install(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="minhanhvpn.com"
-  api_key="minhanhvpn050503"
+  api_host="nam5g.com"
+  api_key="lexuannam011299@gmail.com"
 
   echo "--------------------------------"
   echo "Bạn đã chọn https://${api_host}"
@@ -38,23 +34,18 @@ fi
 
 
   echo -e "[1] Vmess"
-  echo -e "[2] Vless"
-  echo -e "[3] trojan"
-  echo -e "[4] Shadowsocks"
+  echo -e "[2] trojan"
+  echo -e "[3] Shadowsocks"
   read -p "chọn kiểu node(mặc định là vmess):" NodeType
   if [ "$NodeType" == "1" ]; then
     NodeType="V2ray"
     EnableVless="false"
     info="vmess"
   elif [ "$NodeType" == "2" ]; then
-    NodeType="V2ray"
-    EnableVless="true"
-    info="Vless"
-  elif [ "$NodeType" == "3" ]; then
     NodeType="Trojan"
     EnableVless="false"
     info="Trojan"
-    elif [ "$NodeType" == "4" ]; then
+    elif [ "$NodeType" == "3" ]; then
     NodeType="Shadowsocks"
     EnableVless="false"
     info="Shadowsocks"
