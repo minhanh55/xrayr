@@ -150,14 +150,14 @@ cat >>config.yml<<EOF
       VlessFlow: 'none' # Only support vless
       SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
       DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
-      RuleListPath: # /etc/XrayR/rulelist.dat # Path to local rulelist file
+      RuleListPath: /etc/XrayR/rulelist.dat # Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
       UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
       EnableDNS: true # Use custom DNS config, Please ensure that you set the dns.json well
-      DNSType: AsIs  # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
+      DNSType: UseIPv4  # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
       EnableProxyProtocol: false # Only works for WebSocket and TCP
       AutoSpeedLimitConfig:
         Limit: 0 # Warned speed. Set to 0 to disable AutoSpeedLimit (mbps)
@@ -215,7 +215,7 @@ EOF
  }
 
 case "${num}" in
-1) bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/VPN/main/install.sh)
+1) bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/VPN/main/installV2board.sh)
 openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/minhanh.crt -keyout /etc/XrayR/minhanh.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
 cd /etc/XrayR
   cat >config.yml <<EOF
@@ -223,7 +223,7 @@ Log:
   Level: none # Log level: none, error, warning, info, debug 
   AccessPath: # /etc/XrayR/access.Log
   ErrorPath: # /etc/XrayR/error.log
-DnsConfigPath: # /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
+DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
 RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
 InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
 OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
@@ -246,7 +246,7 @@ Log:
   Level: none # Log level: none, error, warning, info, debug 
   AccessPath: # /etc/XrayR/access.Log
   ErrorPath: # /etc/XrayR/error.log
-DnsConfigPath: # /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
+DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
 RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
 InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
 OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
