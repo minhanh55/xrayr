@@ -161,10 +161,10 @@ cat >>config.yml<<EOF
       NodeType: $NodeType # Node type: V2ray, Shadowsocks, Trojan, Shadowsocks-Plugin
       Timeout: 60 # Timeout for the api request
       EnableVless: $EnableVless  # Enable Vless for V2ray Type
-      VlessFlow: "none" # Only support vless
+      VlessFlow: 'none' # Only support vless
       SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
       DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
-      RuleListPath: # /etc/XrayR/rulelist.dat # Path to local rulelist file
+      RuleListPath: /etc/XrayR/rulelist.dat # Path to local rulelist file
       DisableCustomConfig: false # disable custom config for sspanel
     ControllerConfig:
       ListenIP: 0.0.0.0 # IP address you want to listen
@@ -192,26 +192,30 @@ cat >>config.yml<<EOF
         - SNI: # TLS SNI(Server Name Indication), Empty for any
           Alpn: # Alpn, Empty for any
           Path: # HTTP PATH, Empty for any
-          Dest: 80 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
+          Dest: www.cloudflare.com:443 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
           ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
       DisableLocalREALITYConfig: false  # disable local reality config
       EnableREALITY: false # Enable REALITY
       REALITYConfigs:
         Show: false # Show REALITY debug
-        Dest: minhanhvpn.com:443 # Required, Same as fallback
+        Dest: www.cloudflare.com:443 # Required, Same as fallback
         ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
         ServerNames: # Required, list of available serverNames for the client, * wildcard is not supported at the moment.
-          - minhanhvpn.com
-        PrivateKey: "private_key" # Required, execute './xray x25519' to generate.
+          - povo.jp
+          - www.linemo.jp
+          - id.my.softbank.jp
+          - lienquan.garena.vn
+          - mavpn.appsflyer.com
+          - m.youtube.com
+        PrivateKey: "mJa2G2ifqdJj5qlYFbrbA89-TcWlEVfysI1cK-X7eGc" # Required, execute './xray x25519' to generate.
         MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
         MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
-        MaxTimeDiff: 200 # Optional, maximum allowed time difference, unit is in milliseconds.
+        MaxTimeDiff: # Optional, maximum allowed time difference, unit is in milliseconds.
         ShortIds: # Required, list of available shortIds for the client, can be used to differentiate between different clients.
-          - ""
-          - 0123456789abcdef
+          - 906f47df46efecc5
       CertConfig:
         CertMode: file # Option about how to get certificate: none, file, http, tls, dns. Choose "none" will forcedly disable the tls config.
-        CertDomain: "1.1.1.1" # Domain to cert
+        CertDomain: "ctv.tokyo" # Domain to cert
         CertFile: /etc/XrayR/minhanh.crt # Provided if the CertMode is file
         KeyFile: /etc/XrayR/minhanh.key
         Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
