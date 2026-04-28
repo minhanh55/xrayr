@@ -9,7 +9,7 @@ read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc địn
 install(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="minhanhvpn.com"
+  api_host="app.minhanhvpn.com"
   api_key="minhanhvpn050503"
 
   echo "--------------------------------"
@@ -87,7 +87,7 @@ done
 clone_node(){
   clear
   # Gán giá trị mặc định cho api_host và api_key
-  api_host="minhanhvpn.com"
+  api_host="app.minhanhvpn.com"
   api_key="minhanhvpn050503"
 
   echo "--------------------------------"
