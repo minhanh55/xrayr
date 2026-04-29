@@ -1,198 +1,285 @@
-#!/bin/bash
+clear
+echo "   1. Cài đặt"
+echo "   2. update"
+echo "   3. thêm node"
+read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc định Cài đặt)  " num
+[ -z "${num}" ] && num="1"
 
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
-plain='\033[0m'
 
-cur_dir=$(pwd)
+install(){
+  clear
+  # Gán giá trị mặc định cho api_host và api_key
+  api_host="app.minhanhvpn.com"
+  api_key="minhanhvpn050503"
 
-# check root
-    [[ $EUID -ne 0 ]] && echo -e "${red}Lưu Ý：${plain} Bạn Cần Chạy VPS Quyền ROOT Mới Sử Dụng Được！\n" && exit 1
+  echo "--------------------------------"
+  echo "Bạn đã chọn https://${api_host}"
+  echo "--------------------------------"
 
-# check os
-if [[ -f /etc/redhat-release ]]; then
-    release="centos"
-elif cat /etc/issue | grep -Eqi "debian"; then
-    release="debian"
-elif cat /etc/issue | grep -Eqi "ubuntu"; then
-    release="ubuntu"
-elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
-    release="centos"
-elif cat /proc/version | grep -Eqi "debian"; then
-    release="debian"
-elif cat /proc/version | grep -Eqi "ubuntu"; then
-    release="ubuntu"
-elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
-    release="centos"
-else
-    echo -e "${red}Không tìm thấy phiên bản hệ thống, vui lòng liên hệ với tác giả tập lệnh！${plain}\n" && exit 1
+  echo "--------------------------------"
+  echo "Bạn đã chọn key web: ${api_key}"
+  echo "--------------------------------"
+
+  pre_install
+  
+}
+	
+pre_install(){
+ clear
+	read -p "Nhập số node cần cài và nhấn Enter (tối đa 2 node): " n
+	 [ -z "${n}" ] && n="1"
+    a=0
+    if [ "$n" -ge 2 ] ; then 
+    n="2"
 fi
+  while [ $a -lt $n ]
+ do
+ echo " node số $((a+1))"
 
-arch=$(arch)
 
-if [[ $arch == "x86_64" || $arch == "x64" || $arch == "amd64" ]]; then
-    arch="64"
-elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
-    arch="arm64-v8a"
-elif [[ $arch == "s390x" ]]; then
-    arch="s390x"
-else
-    arch="64"
-    echo -e "${red}Không phát hiện được kiến trúc, sử dụng kiến trúc mặc định: ${arch}${plain}"
-fi
+  echo -e "[1] Vmess"
+  echo -e "[2] Vless"
+  echo -e "[3] trojan"
+  echo -e "[4] Shadowsocks"
+  read -p "chọn kiểu node(mặc định là vmess):" NodeType
+  if [ "$NodeType" == "1" ]; then
+    NodeType="V2ray"
+    EnableVless="false"
+    info="vmess"
+  elif [ "$NodeType" == "2" ]; then
+    NodeType="V2ray"
+    EnableVless="true"
+    info="Vless"
+  elif [ "$NodeType" == "3" ]; then
+    NodeType="Trojan"
+    EnableVless="false"
+    info="Trojan"
+    elif [ "$NodeType" == "4" ]; then
+    NodeType="Shadowsocks"
+    EnableVless="false"
+    info="Shadowsocks"
+  else
+    NodeType="V2ray"
+    EnableVless="false"
+    info="vmess"
+  fi
+  echo "Bạn đã chọn $info"
+  echo "--------------------------------"
 
-echo "Ngành kiến trúc: ${arch}"
 
-if [ "$(getconf WORD_BIT)" != '32' ] && [ "$(getconf LONG_BIT)" != '64' ] ; then
-    echo "Phần mềm này không hỗ trợ hệ thống 32 bit (x86), vui lòng sử dụng hệ thống 64 bit (x86_64), nếu phát hiện không chính xác, vui lòng liên hệ với tác giả"
-    exit 2
-fi
 
-os_version=""
+  #node id
+    read -p " ID nút (Node_ID):" node_id
+  [ -z "${node_id}" ] && node_id=0
+  echo "-------------------------------"
+  echo -e "Node_ID: ${node_id}"
+  echo "-------------------------------"
+  
 
-# os version
-if [[ -f /etc/os-release ]]; then
-    os_version=$(awk -F'[= ."]' '/VERSION_ID/{print $3}' /etc/os-release)
-fi
-if [[ -z "$os_version" && -f /etc/lsb-release ]]; then
-    os_version=$(awk -F'[= ."]+' '/DISTRIB_RELEASE/{print $2}' /etc/lsb-release)
-fi
-
-if [[ x"${release}" == x"centos" ]]; then
-    if [[ ${os_version} -le 6 ]]; then
-        echo -e "${red}Vui lòng sử dụng hệ thống CentOS 7 trở lên！${plain}\n" && exit 1
-    fi
-elif [[ x"${release}" == x"ubuntu" ]]; then
-    if [[ ${os_version} -lt 16 ]]; then
-        echo -e "${red}Vui lòng sử dụng hệ thống Ubuntu 16 trở lên！${plain}\n" && exit 1
-    fi
-elif [[ x"${release}" == x"debian" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red}Vui lòng sử dụng phiên bản Debian 8 hoặc cao hơn của hệ thống！${plain}\n" && exit 1
-    fi
-fi
-
-install_base() {
-    if [[ x"${release}" == x"centos" ]]; then
-        yum install epel-release -y
-        yum install openssl -y
-        yum install wget curl unzip tar crontabs socat -y
-        firewall-cmd --zone=public --add-port=80/tcp --permanent
-	    firewall-cmd --zone=public --add-port=443/tcp --permanent
-	    firewall-cmd --reload
-    else
-        apt update -y
-        apt install openssl -y
-        apt install wget curl unzip tar cron socat -y
-        ufw allow 80
-	    ufw allow 443
-    fi
+ config
+  a=$((a+1))
+done
 }
 
-# 0: running, 1: not running, 2: not installed
-check_status() {
-    if [[ ! -f /etc/systemd/system/XrayR.service ]]; then
-        return 2
-    fi
-    temp=$(systemctl status XrayR | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
-    if [[ x"${temp}" == x"running" ]]; then
-        return 0
-    else
-        return 1
-    fi
+
+
+#clone node
+clone_node(){
+  clear
+  # Gán giá trị mặc định cho api_host và api_key
+  api_host="app.minhanhvpn.com"
+  api_key="minhanhvpn050503"
+
+  echo "--------------------------------"
+  echo "Bạn đã chọn https://${api_host}"
+  echo "--------------------------------"
+
+  echo "--------------------------------"
+  echo "Bạn đã chọn key web: ${api_key}"
+  echo "--------------------------------"
+  
+  echo -e "[1] Vmess"
+  echo -e "[2] Vless"
+  echo -e "[3] trojan"
+  echo -e "[4] Shadowsocks"
+  read -p "chọn kiểu node(mặc định là vmess):" NodeType
+  if [ "$NodeType" == "1" ]; then
+    NodeType="V2ray"
+    EnableVless="false"
+    info="vmess"
+  elif [ "$NodeType" == "2" ]; then
+    NodeType="V2ray"
+    EnableVless="true"
+    info="Vless"
+  elif [ "$NodeType" == "3" ]; then
+    NodeType="Trojan"
+    EnableVless="false"
+    info="Trojan"
+    elif [ "$NodeType" == "4" ]; then
+    NodeType="Shadowsocks"
+    EnableVless="false"
+    info="Shadowsocks"
+  else
+    NodeType="V2ray"
+    EnableVless="false"
+    info="vmess"
+  fi
+  echo "Bạn đã chọn $info"
+  echo "--------------------------------"
+
+
+
+
+
+  #node id
+    read -p " ID nút (Node_ID):" node_id
+  [ -z "${node_id}" ] && node_id=0
+  echo "-------------------------------"
+  echo -e "Node_ID: ${node_id}"
+  echo "-------------------------------"
+ 
+
+ config
+#   a=$((a+1))
+#   done
 }
 
-install_acme() {
-    curl https://get.acme.sh | sh
-}
 
-install_XrayR() {
-    if [[ -e /usr/local/XrayR/ ]]; then
-        rm /usr/local/XrayR/ -rf
-    fi
 
-    mkdir /usr/local/XrayR/ -p
-	cd /usr/local/XrayR/
 
-    url="https://github.com/minhanh55/VPN/releases/download/test/XrayR-linux-64.zip"
-    wget -q -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip ${url}
-    # curl -o XrayR-linux.zip https://domain/XrayR/XrayR-linux-64.zip
 
-    unzip XrayR-linux.zip
-    rm XrayR-linux.zip -f
-    chmod +x XrayR
-    mkdir /etc/XrayR/ -p
-    rm /etc/systemd/system/XrayR.service -f
-    file="https://raw.githubusercontent.com/minhanh55/VPN/main/XrayR.service"
-    wget -q -N --no-check-certificate -O /etc/systemd/system/XrayR.service ${file}
-    # cp -f XrayR.service /etc/systemd/system/
-    systemctl daemon-reload
-    systemctl stop XrayR
-    systemctl enable XrayR
-    echo -e "${green}XrayR Đã Được Cài đặt"
-    cp geoip.dat /etc/XrayR/
-    cp geosite.dat /etc/XrayR/ 
 
-    if [[ ! -f /etc/XrayR/config.yml ]]; then
-        cp config.yml /etc/XrayR/
-        echo -e ""
-    else
-        systemctl start XrayR
-        sleep 2
-        check_status
-        echo -e ""
-        if [[ $? == 0 ]]; then
-            echo -e "${green}Khởi Chạy MinhAnh XrayR Thành Công${plain}"
-        else
-            echo -e "${red}MinhAnh XrayR Có Thể Không Chạy - Vui Lòng Truy Cập Lệnh XrayR Log Để Biết Thêm Chi Tiết${plain}"
-        fi
-    fi
 
-    if [[ ! -f /etc/XrayR/dns.json ]]; then
-        cp dns.json /etc/XrayR/
-    fi
-    if [[ ! -f /etc/XrayR/route.json ]]; then
-        cp route.json /etc/XrayR/
-    fi
-    if [[ ! -f /etc/XrayR/custom_outbound.json ]]; then
-        cp custom_outbound.json /etc/XrayR/
-    fi
-    if [[ ! -f /etc/XrayR/custom_inbound.json ]]; then
-        cp custom_inbound.json /etc/XrayR/
-    fi
-    if [[ ! -f /etc/XrayR/rulelist.dat ]]; then
-        cp rulelist.dat /etc/XrayR/
-    fi
-    curl -o /usr/bin/XrayR -Ls https://raw.githubusercontent.com/minhanh55/VPN/main/XrayR.sh
-    # cp -f XrayR.sh /usr/bin/XrayR
-    chmod +x /usr/bin/XrayR
-    ln -s /usr/bin/XrayR /usr/bin/xrayr # 小写兼容
-    chmod +x /usr/bin/xrayr
-    cd $cur_dir
-    rm -f install.sh
-    echo -e ""
-    echo "--------------[MinhAnh]--------------"
-    echo "Cách sử dụng tập lệnh quản lý XrayR (tương thích với thực thi xrayr, không phân biệt chữ hoa chữ thường): "
-    echo "------------------------------------------"
-    echo "XrayR                    - Hiển Thị Menu"
-    echo "XrayR start              - Khởi Động XrayR"
-    echo "XrayR stop               - Dừng XrayR"
-    echo "XrayR restart            - Khởi Động Lại XrayR"
-    echo "XrayR status             - Trạng Thái XrayR"
-    echo "XrayR enable             - Mở XrayR"
-    echo "XrayR disable            - Hủy Bỏ XrayR"
-    echo "XrayR log                - Log Xrayr"
-    echo "XrayR update             - Cập Nhật XrayR"
-    echo "XrayR update x.x.x       - Cập Nhật XrayR Theo Phiên Bản"
-    echo "XrayR config             - Hiển Thị Nội Dung XrayR"
-    echo "XrayR install            - Cài Đặt XrayR"
-    echo "XrayR uninstall          - Xóa XrayR"
-    echo "XrayR version            - Phiên Bản XrayR"
-    echo "------------------------------------------"
-}
+config(){
+cd /etc/XrayR
+cat >>config.yml<<EOF
+  - PanelType: "V2board" # Panel type:  NewV2board, V2board
+    ApiConfig:
+      ApiHost: "https://$api_host"
+      ApiKey: "$api_key"
+      NodeID: $node_id
+      NodeType: $NodeType # Node type: V2ray, Shadowsocks, Trojan, Shadowsocks-Plugin
+      Timeout: 60 # Timeout for the api request
+      EnableVless: $EnableVless  # Enable Vless for V2ray Type
+      VlessFlow: 'none' # Only support vless
+      SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
+      DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
+      RuleListPath: /etc/XrayR/rulelist.dat # Path to local rulelist file
+      DisableCustomConfig: false # disable custom config for sspanel
+    ControllerConfig:
+      ListenIP: 0.0.0.0 # IP address you want to listen
+      SendIP: 0.0.0.0 # IP address you want to send pacakage
+      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
+      EnableDNS: true # Use custom DNS config, Please ensure that you set the dns.json well
+      DNSType: UseIPv4 # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
+      EnableProxyProtocol: false # Only works for WebSocket and TCP
+      AutoSpeedLimitConfig:
+        Limit: 0 # Warned speed. Set to 0 to disable AutoSpeedLimit (mbps)
+        WarnTimes: 0 # After (WarnTimes) consecutive warnings, the user will be limited. Set to 0 to punish overspeed user immediately.
+        LimitSpeed: 0 # The speedlimit of a limited user (unit: mbps)
+        LimitDuration: 0 # How many minutes will the limiting last (unit: minute)
+      GlobalDeviceLimitConfig:
+        Enable: false # Enable the global device limit of a user
+        RedisNetwork: tcp # Redis protocol, tcp or unix
+        RedisAddr: 127.0.0.1:6379 # Redis server address, or unix socket path
+        RedisUsername: # Redis username
+        RedisPassword: YOUR PASSWORD # Redis password
+        RedisDB: 0 # Redis DB
+        Timeout: 5 # Timeout for redis request
+        Expiry: 60 # Expiry time (second)
+      EnableFallback: false # Only support for Trojan and Vless
+      FallBackConfigs:  # Support multiple fallbacks
+        - SNI: # TLS SNI(Server Name Indication), Empty for any
+          Alpn: # Alpn, Empty for any
+          Path: # HTTP PATH, Empty for any
+          Dest: www.cloudflare.com:443 # Required, Destination of fallback, check https://xtls.github.io/config/features/fallback.html for details.
+          ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
+      DisableLocalREALITYConfig: false  # disable local reality config
+      EnableREALITY: false # Enable REALITY
+      REALITYConfigs:
+        Show: false # Show REALITY debug
+        Dest: www.cloudflare.com:443 # Required, Same as fallback
+        ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for disable
+        ServerNames: # Required, list of available serverNames for the client, * wildcard is not supported at the moment.
+          - povo.jp
+          - www.linemo.jp
+          - id.my.softbank.jp
+          - lienquan.garena.vn
+          - mavpn.appsflyer.com
+          - m.youtube.com
+        PrivateKey: "mJa2G2ifqdJj5qlYFbrbA89-TcWlEVfysI1cK-X7eGc" # Required, execute './xray x25519' to generate.
+        MinClientVer: # Optional, minimum version of Xray client, format is x.y.z.
+        MaxClientVer: # Optional, maximum version of Xray client, format is x.y.z.
+        MaxTimeDiff: # Optional, maximum allowed time difference, unit is in milliseconds.
+        ShortIds: # Required, list of available shortIds for the client, can be used to differentiate between different clients.
+          - 906f47df46efecc5
+      CertConfig:
+        CertMode: file # Option about how to get certificate: none, file, http, tls, dns. Choose "none" will forcedly disable the tls config.
+        CertDomain: "minhanh.com" # Domain to cert
+        CertFile: /etc/XrayR/minhanh.crt # Provided if the CertMode is file
+        KeyFile: /etc/XrayR/minhanh.key
+        Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
+        Email: test@me.com
+        DNSEnv: # DNS ENV option used by DNS provider
+          ALICLOUD_ACCESS_KEY: aaa
+          ALICLOUD_SECRET_KEY: bbb
+EOF
 
-echo -e "${green}开始安装${plain}"
-install_base
-# install_acme
-install_XrayR $1
+
+ }
+
+case "${num}" in
+1) bash <(curl -Ls https://raw.githubusercontent.com/minhanh55/VPN/main/test.sh)
+openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/minhanh.crt -keyout /etc/XrayR/minhanh.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
+cd /etc/XrayR
+  cat >config.yml <<EOF
+Log:
+  Level: none # Log level: none, error, warning, info, debug 
+  AccessPath: # /etc/XrayR/access.Log
+  ErrorPath: # /etc/XrayR/error.log
+DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
+RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
+InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
+OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
+ConnectionConfig:
+  Handshake: 60 # Handshake time limit, Second
+  ConnIdle: 300 # Connection idle time limit, Second
+  UplinkOnly: 60 # Time limit when the connection downstream is closed, Second
+  DownlinkOnly: 60 # Time limit when the connection is closed after the uplink is closed, Second
+  BufferSize: 128 # The internal cache size of each connection, kB
+Nodes:
+EOF
+
+install
+cd /root
+xrayr start
+ ;;
+ 2) cd /etc/XrayR
+cat >config.yml <<EOF
+Log:
+  Level: none # Log level: none, error, warning, info, debug 
+  AccessPath: # /etc/XrayR/access.Log
+  ErrorPath: # /etc/XrayR/error.log
+DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
+RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
+InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
+OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
+ConnectionConfig:
+  Handshake: 60 # Handshake time limit, Second
+  ConnIdle: 300 # Connection idle time limit, Second
+  UplinkOnly: 60 # Time limit when the connection downstream is closed, Second
+  DownlinkOnly: 60 # Time limit when the connection is closed after the uplink is closed, Second
+  BufferSize: 128 # The internal cache size of each connection, kB
+Nodes:
+EOF
+
+install
+cd /root
+xrayr restart
+ ;;
+ 3) cd /etc/XrayR
+ clone_node
+ cd /root
+  xrayr restart
+;;
+esac
