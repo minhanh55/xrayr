@@ -169,7 +169,7 @@ cat >>config.yml<<EOF
     ControllerConfig:
       ListenIP: 0.0.0.0 # IP address you want to listen
       SendIP: 0.0.0.0 # IP address you want to send pacakage
-      UpdatePeriodic: 60 # Time to update the nodeinfo, how many sec.
+      UpdatePeriodic: 30 # Time to update the nodeinfo, how many sec.
       EnableDNS: true # Use custom DNS config, Please ensure that you set the dns.json well
       DNSType: UseIPv4 # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
       EnableProxyProtocol: false # Only works for WebSocket and TCP
