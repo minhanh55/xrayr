@@ -246,7 +246,7 @@ ConnectionConfig:
   ConnIdle: 300 # Connection idle time limit, Second
   UplinkOnly: 60 # Time limit when the connection downstream is closed, Second
   DownlinkOnly: 60 # Time limit when the connection is closed after the uplink is closed, Second
-  BufferSize: 128 # The internal cache size of each connection, kB
+  BufferSize: 32 # The internal cache size of each connection, kB
 Nodes:
 EOF
 
@@ -269,7 +269,7 @@ ConnectionConfig:
   ConnIdle: 300 # Connection idle time limit, Second
   UplinkOnly: 60 # Time limit when the connection downstream is closed, Second
   DownlinkOnly: 60 # Time limit when the connection is closed after the uplink is closed, Second
-  BufferSize: 128 # The internal cache size of each connection, kB
+  BufferSize: 32 # The internal cache size of each connection, kB
 Nodes:
 EOF
 
